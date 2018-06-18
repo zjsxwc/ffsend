@@ -77,20 +77,19 @@ crate:
 # GitHub binary release for Linux on x86/x86_64
 linux-x64:
   stage: release
-  image: bensdoings/dind-debian:latest
   variables:
     TARGET: x86_64-unknown-linux-gnu
     TARGET_SIMPLE: linux-x64
     DEB: y
   before_script: &release-before-script
     - apt-get update
-    - apt-get install -y --no-install-recommends build-essential pkg-config libssl-dev wget
-    - wget https://sh.rustup.rs -O rustup-init
-    - chmod a+x ./rustup-init
-    - ./rustup-init -y --no-modify-path --default-toolchain $RUST_VERSION
-    - export PATH=/usr/local/cargo/bin:$PATH
-    - export RUSTUP_HOME=/usr/local/rustup
-    - export CARGO_HOME=/usr/local/cargo
+    - apt-get install -y --no-install-recommends build-essential pkg-config libssl-dev apt-transport-https ca-certificates curl gnupg2 software-properties-common
+
+    - curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+    - add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+    - apt-get update
+    - apt-get install -y --no-install-recommends docker-ce
+
     - rustc --version && cargo --version
   script: &release-script
     - echo Install release dependencies
@@ -136,7 +135,6 @@ linux-x64:
 
 linux-i368:
   stage: release
-  image: bensdoings/dind-debian:latest
   variables:
     TARGET: i686-unknown-linux-gnu
     TARGET_SIMPLE: linux-i386
@@ -148,7 +146,6 @@ linux-i368:
 # GitHub binary release for Linux on arch
 linux-aarch64:
   stage: release
-  image: bensdoings/dind-debian:latest
   variables:
     TARGET: aarch64-unknown-linux-gnu
     TARGET_SIMPLE: linux-aarch64
@@ -158,7 +155,6 @@ linux-aarch64:
 
 linux-arm:
   stage: release
-  image: bensdoings/dind-debian:latest
   variables:
     TARGET: arm-unknown-linux-gnueabi
     TARGET_SIMPLE: linux-arm
@@ -168,7 +164,6 @@ linux-arm:
 
 linux-armv7:
   stage: release
-  image: bensdoings/dind-debian:latest
   variables:
     TARGET: armv7-unknown-linux-gnueabihf
     TARGET_SIMPLE: linux-armv7
@@ -179,7 +174,6 @@ linux-armv7:
 # GitHub binary release for macOX
 osx-x64:
   stage: release
-  image: bensdoings/dind-debian:latest
   variables:
     TARGET: x86_64-apple-darwin
     TARGET_SIMPLE: osx-x64
