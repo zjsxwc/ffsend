@@ -86,7 +86,9 @@ linux-x64:
   before_script: &release-before-script
     - apk update
     - apk add curl openssl-dev pkgconfig
-    - curl https://sh.rustup.rs -sSf | sh -s -- -y --no-modify-path --default-toolchain $RUST_VERSION
+    - wget https://sh.rustup.rs -O rustup-init
+    - chmod a+x ./rustup-init
+    - ./rustup-init -y --no-modify-path --default-toolchain $RUST_VERSION
     - export PATH=/usr/local/cargo/bin:$PATH
     - export RUSTUP_HOME=/usr/local/rustup
     - export CARGO_HOME=/usr/local/cargo
