@@ -2,9 +2,8 @@ image: "rust:slim"
 
 stages:
   - check
-  - test
   - build
-  - integration
+  - test
   - release
 
 variables:
@@ -47,12 +46,6 @@ rust-nightly:
   variables:
     RUST_VERSION: nightly
 
-# Run the unit tests through Cargo
-cargo-test:
-  stage: test
-  script:
-    - cargo test --all --verbose
-
 # Create a release build artifact for further testing
 build:
   stage: build
@@ -65,9 +58,15 @@ build:
       - ffsend
     expire_in: 1 month
 
+# Run the unit tests through Cargo
+cargo-test:
+  stage: test
+  script:
+    - cargo test --all --verbose
+
 # Run integration test with the public Send service
 public-send-test:
-  stage: integration
+  stage: test
   image: alpine
   dependencies:
     - build
