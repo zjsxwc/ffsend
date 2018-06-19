@@ -21,7 +21,7 @@ cache:
 # Install compiler and OpenSSL dependencies
 before_script:
   - apt-get update -y
-  - apt-get install -y --no-install-recommends build-essential
+  - apt-get install -y --no-install-recommends build-essential libssl-dev
   - |
     rustup install $RUST_VERSION
     rustup default $RUST_VERSION
