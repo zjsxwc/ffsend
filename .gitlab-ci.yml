@@ -11,7 +11,7 @@ variables:
 
 # Cargo artifacts caching per Rust version and pipeline
 cache:
-  key: "$CI_PIPELINE_ID-$RUST_VERSION"
+  key: "$RUST_VERSION"
   paths:
     - /usr/local/rustup/
     - /usr/local/cargo/
