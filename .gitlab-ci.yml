@@ -77,7 +77,7 @@ public-send-test:
   cache: {}
   before_script: []
   script:
-    - chmod a+x ffsend
+    - ls -lahR
     - head -c1m </dev/urandom >testfile
     - ./ffsend upload testfile -n testfile.bin -a -d 10 -p secret -I
     # TODO: download this file, compare checksums
