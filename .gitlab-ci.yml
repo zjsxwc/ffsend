@@ -21,14 +21,10 @@ cache:
 # Install compiler and OpenSSL dependencies
 before_script:
   - apt-get update -y
-  - apt-get install -y --no-install-recommends build-essential libssl-dev
+  - apt-get install -y --no-install-recommends pkg-config libssl-dev
   - |
     rustup install $RUST_VERSION
     rustup default $RUST_VERSION
-  - |
-    export OPENSSL_STATIC=yes
-    export OPENSSL_LIB_DIR=/usr/lib
-    export OPENSSL_INCLUDE_DIR=/usr/include/openssl
   - |
     rustc --version
     cargo --version
@@ -61,17 +57,8 @@ rust-nightly:
 build:
   stage: build
   script:
-    - apt install -y build-essential wget
-    - wget https://www.openssl.org/source/openssl-1.0.2o.tar.gz
-    - tar xzvf openssl-1.0.2o.tar.gz
-    - cd openssl-1.0.2o
-    - ./config --openssldir=/usr/lib/ssl --prefix=/usr/lib/ssl
-    - make
-    - make install
-    - export OPENSSL_LIB_DIR=/usr/lib/ssl
-    - export OPENSSL_INCLUDE_DIR=$(pwd)/include
-    - cd ..
-    - cargo build --all --release --verbose
+    - apt install musl-dev -y
+    - cargo build --all --release --verbose --target=x86_64-unknown-linux-musl
     - mv target/release/ffsend ./ffsend
   artifacts:
     paths:
