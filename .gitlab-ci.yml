@@ -3,6 +3,7 @@ image: "rust:slim"
 stages:
   - check
   - test
+  - build
   - integration
   - release
 
@@ -52,11 +53,28 @@ cargo-test:
   script:
     - cargo test --all --verbose
 
+# Create a release build artifact for further testing
+build:
+  stage: build
+  script:
+    - cargo build --all --release --verbose
+    - mv target/release/ffsend ./ffsend
+  artifacts:
+    name: ffsend-release
+    paths:
+      - ffsend
+    expire_in: 1 month
+
 # Run integration test with the public Send service
 public-send-test:
   stage: integration
+  image: alpine
+  dependencies:
+    - build
+  variables:
+    GIT_STRATEGY: none
+  cache: {}
   script:
-    - cargo build
-    - head -c 1M </dev/urandom >testfile
-    - cargo run -- upload testfile -n testfile.bin -a -d 10 -p secret -I
+    - head -c1m </dev/urandom >testfile
+    - ./ffsend upload testfile -n testfile.bin -a -d 10 -p secret -I
     # TODO: download this file, compare checksums
