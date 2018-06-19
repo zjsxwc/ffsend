@@ -20,9 +20,14 @@ cache:
 # Install compiler and OpenSSL dependencies
 before_script:
   - apt-get update -y
-  - apt-get install -y --no-install-recommends build-essential pkg-config libssl-dev
-  - rustup install $RUST_VERSION && rustup default $RUST_VERSION
-  - rustc --version && cargo --version
+  - apt-get install -y --no-install-recommends build-essential libssl-dev
+  - rustup install $RUST_VERSION && \
+    rustup default $RUST_VERSION
+  - export OPENSSL_STATIC=yes && \
+    export OPENSSL_LIB_DIR=/usr/lib && \
+    export OPENSSL_INCLUDE_DIR=/usr/include/openssl
+  - rustc --version && \
+    cargo --version
 
 # Variable defaults
 variables:
