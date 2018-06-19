@@ -26,7 +26,7 @@ before_script:
     rustup default $RUST_VERSION
   - |
     export OPENSSL_STATIC=yes
-    export OPENSSL_LIB_DIR=/usr/lib/ssl
+    export OPENSSL_LIB_DIR=/usr/lib
     export OPENSSL_INCLUDE_DIR=/usr/include/openssl
   - |
     rustc --version
@@ -60,6 +60,16 @@ rust-nightly:
 build:
   stage: build
   script:
+    - apt install build-essential
+    - wget https://www.openssl.org/source/openssl-1.0.2o.tar.gz
+    - tar xzvf openssl-1.0.2o.tar.gz
+    - cd openssl-1.0.2o.tar.gz
+    - ./config --openssldir=/usr/lib/ssl --prefix=/usr/lib/ssl
+    - make
+    - make install
+    - export OPENSSL_LIB_DIR=/usr/lib
+    - export OPENSSL_INCLUDE_DIR=openssl-1.0.2o/include
+    - cd ..
     - cargo build --all --release --verbose
     - mv target/release/ffsend ./ffsend
   artifacts:
