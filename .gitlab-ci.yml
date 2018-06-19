@@ -58,6 +58,7 @@ build:
   stage: build
   script:
     - apt install musl-dev -y
+    - rustup target add x86_64-unknown-linux-musl
     - cargo build --all --release --verbose --target=x86_64-unknown-linux-musl
     - mv target/release/ffsend ./ffsend
   artifacts:
