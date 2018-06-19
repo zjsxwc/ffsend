@@ -64,7 +64,7 @@ build:
     - apt install -y build-essential wget
     - wget https://www.openssl.org/source/openssl-1.0.2o.tar.gz
     - tar xzvf openssl-1.0.2o.tar.gz
-    - cd openssl-1.0.2o.tar.gz
+    - cd openssl-1.0.2o
     - ./config --openssldir=/usr/lib/ssl --prefix=/usr/lib/ssl
     - make
     - make install
