@@ -26,7 +26,7 @@ before_script:
     rustup default $RUST_VERSION
   - |
     export OPENSSL_STATIC=yes
-    export OPENSSL_LIB_DIR=/usr/lib
+    export OPENSSL_LIB_DIR=/usr/lib/ssl
     export OPENSSL_INCLUDE_DIR=/usr/include/openssl
   - |
     rustc --version
