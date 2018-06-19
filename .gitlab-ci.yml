@@ -1,8 +1,9 @@
 image: "rust:slim"
 
 stages:
-  - check
+  # TODO: run the check stage first after testing
   - build
+  - check
   - test
   - release
 
