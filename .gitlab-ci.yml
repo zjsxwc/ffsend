@@ -21,12 +21,15 @@ cache:
 before_script:
   - apt-get update -y
   - apt-get install -y --no-install-recommends build-essential libssl-dev
-  - rustup install $RUST_VERSION && \
+  - |
+    rustup install $RUST_VERSION
     rustup default $RUST_VERSION
-  - export OPENSSL_STATIC=yes && \
-    export OPENSSL_LIB_DIR=/usr/lib && \
+  - |
+    export OPENSSL_STATIC=yes
+    export OPENSSL_LIB_DIR=/usr/lib
     export OPENSSL_INCLUDE_DIR=/usr/include/openssl
-  - rustc --version && \
+  - |
+    rustc --version
     cargo --version
 
 # Variable defaults
@@ -83,5 +86,4 @@ public-send-test:
   before_script: []
   script:
     - head -c1m </dev/urandom >testfile
-    - ./ffsend upload testfile -n testfile.bin -a -d 10 -p secret -I
-    # TODO: download this file, compare checksums
+    - ./ffsend upload testfile -n testfile.bin -a -d 10 -p secret -I # TODO: download this file, compare checksums
