@@ -75,6 +75,7 @@ public-send-test:
   variables:
     GIT_STRATEGY: none
   cache: {}
+  before_script: []
   script:
     - head -c1m </dev/urandom >testfile
     - ./ffsend upload testfile -n testfile.bin -a -d 10 -p secret -I
