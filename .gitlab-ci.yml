@@ -68,7 +68,7 @@ build:
     - ./config --openssldir=/usr/lib/ssl --prefix=/usr/lib/ssl
     - make
     - make install
-    - export OPENSSL_LIB_DIR=/usr/lib
+    - export OPENSSL_LIB_DIR=/usr/lib/ssl
     - export OPENSSL_INCLUDE_DIR=$(pwd)/include
     - cd ..
     - cargo build --all --release --verbose
