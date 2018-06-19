@@ -85,7 +85,7 @@ cargo-test:
 # Run integration test with the public Send service
 public-send-test:
   stage: test
-  image: debian
+  image: alpine
   dependencies:
     - build
   variables:
@@ -94,4 +94,5 @@ public-send-test:
   before_script: []
   script:
     - head -c1m </dev/urandom >testfile
-    - ./ffsend upload testfile -n testfile.bin -a -d 10 -p secret -I # TODO: download this file, compare checksums
+    - ./ffsend upload testfile -n testfile.bin -a -d 10 -p secret -I
+    # TODO: download this file, compare checksums
