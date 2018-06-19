@@ -9,9 +9,9 @@ stages:
 variables:
   RUST_VERSION: stable
 
-# Cargo artifacts caching per Rust version
+# Cargo artifacts caching per Rust version and pipeline
 cache:
-  key: "$RUST_VERSION"
+  key: "$CI_PIPELINE_ID-$RUST_VERSION"
   paths:
     - /usr/local/rustup/
     - /usr/local/cargo/
@@ -41,10 +41,12 @@ rust-beta:
   <<: *check-base
   variables:
     RUST_VERSION: beta
+  cache: {}
 rust-nightly:
   <<: *check-base
   variables:
     RUST_VERSION: nightly
+  cache: {}
 
 # Create a release build artifact for further testing
 build:
