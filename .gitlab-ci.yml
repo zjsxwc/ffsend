@@ -85,7 +85,7 @@ cargo-test:
 # Run integration test with the public Send service
 public-send-test:
   stage: test
-  image: alpine
+  image: rust:slim
   dependencies:
     - build
   variables:
