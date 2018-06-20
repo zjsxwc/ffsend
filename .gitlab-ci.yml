@@ -75,6 +75,18 @@ build:
       - ffsend
     expire_in: 1 month
 
+# Attempt a musl build with cross
+build-cross:
+  stage: build
+  image: docker:stable
+  services:
+    - docker:dind
+  variables:
+    DOCKER_DRIVER: overlay2
+  script:
+    - docker info
+    - env
+
 # Run the unit tests through Cargo
 cargo-test:
   stage: test
@@ -85,7 +97,6 @@ cargo-test:
 # Run integration test with the public Send service
 public-send-test:
   stage: test
-  image: rust:slim
   dependencies:
     - build
   variables:
