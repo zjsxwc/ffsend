@@ -86,7 +86,7 @@ build-cross:
   before_script: []
   script:
     - apt update
-    - apt install -y --no-install-recommends apt-transport-https ca-certificates curl gnupg2 software-properties-common expect-dev tcl8.5
+    - apt install -y --no-install-recommends apt-transport-https ca-certificates curl gnupg2 software-properties-common expect-dev tcl-dev
     - curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
     - add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
     - apt update
