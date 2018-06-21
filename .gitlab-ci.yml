@@ -93,8 +93,7 @@ build-cross:
     - apt install -y docker-ce
     - docker info
     - cargo install cross
-    - export PATH=$PATH
-    - script -qec "cross build --target x86_64-unknown-linux-musl --release --verbose --all" /dev/null
+    - cross build --target x86_64-unknown-linux-musl --release --verbose --all
 
 # Run the unit tests through Cargo
 cargo-test:
