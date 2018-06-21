@@ -86,14 +86,14 @@ build-cross:
   before_script: []
   script:
     - apt update
-    - apt install -y --no-install-recommends apt-transport-https ca-certificates curl gnupg2 software-properties-common expect-dev tcl-dev
+    - apt install -y --no-install-recommends apt-transport-https ca-certificates curl gnupg2 software-properties-common
     - curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
     - add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
     - apt update
     - apt install -y docker-ce
     - docker info
     - cargo install cross
-    - unbuffer -p cross build --target x86_64-unknown-linux-musl --release --verbose --all
+    - script -qec "cross build --target x86_64-unknown-linux-musl --release --verbose --all" /dev/null
 
 # Run the unit tests through Cargo
 cargo-test:
