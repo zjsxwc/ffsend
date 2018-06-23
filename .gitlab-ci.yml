@@ -91,6 +91,7 @@ build-static:
     - cargo build --target=x86_64-unknown-linux-musl --release --verbose
 
     # Prepare the release artifact
+    - find . -name ffsend -exec ls -lah {} \;
     - mv target/x86_64-unknown-linux-musl/release/ffsend ./ffsend
   artifacts:
     name: build-static
