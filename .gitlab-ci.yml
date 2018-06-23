@@ -53,30 +53,30 @@ rust-nightly:
     RUST_VERSION: nightly
   cache: {}
 
-# Create a release build artifact for future testing
-build:
-  stage: build
-  script:
-    - apt install -y build-essential wget
-    - wget https://www.openssl.org/source/openssl-1.0.2o.tar.gz
-    - tar xzvf openssl-1.0.2o.tar.gz
-    - cd openssl-1.0.2o
-    - ./config -fPIC --openssldir=/usr/local/ssl --prefix=/usr/local
-    - make
-    - make install
-    - cd ..
-    - export OPENSSL_STATIC=1
-    - export OPENSSL_LIB_DIR=/usr/local/lib
-    - export OPENSSL_INCLUDE_DIR=/usr/local/include
-    - cargo build --all --release --verbose
-    - mv target/release/ffsend ./ffsend
-  artifacts:
-    paths:
-      - ffsend
-    expire_in: 1 month
+# # Create a release build artifact for future testing
+# build:
+#   stage: build
+#   script:
+#     - apt install -y build-essential wget
+#     - wget https://www.openssl.org/source/openssl-1.0.2o.tar.gz
+#     - tar xzvf openssl-1.0.2o.tar.gz
+#     - cd openssl-1.0.2o
+#     - ./config -fPIC --openssldir=/usr/local/ssl --prefix=/usr/local
+#     - make
+#     - make install
+#     - cd ..
+#     - export OPENSSL_STATIC=1
+#     - export OPENSSL_LIB_DIR=/usr/local/lib
+#     - export OPENSSL_INCLUDE_DIR=/usr/local/include
+#     - cargo build --all --release --verbose
+#     - mv target/release/ffsend ./ffsend
+#   artifacts:
+#     paths:
+#       - ffsend
+#     expire_in: 1 month
 
 # Attempt a musl build with cross
-build-cross:
+build:
   stage: build
   script:
     - rustup target add x86_64-unknown-linux-musl
