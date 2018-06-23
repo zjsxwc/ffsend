@@ -36,9 +36,9 @@ variables:
 .check-base: &check-base
   stage: check
   script:
-    - cargo check --all --verbose
-    - cargo check --no-default-features --all --verbose
-    - cargo check --features no-color --all --verbose
+    - cargo check --verbose
+    - cargo check --no-default-features --verbose
+    - cargo check --features no-color --verbose
 rust-stable:
   <<: *check-base
 rust-beta:
@@ -56,9 +56,16 @@ rust-nightly:
 build:
   stage: build
   script:
-    - cargo build --all --verbose
-    - cargo build --no-default-features --all --verbose
-    - cargo build --features no-color --all --verbose
+    - cargo build --verbose
+    - cargo build --no-default-features --verbose
+    - cargo build --features no-color --verbose
+    - cargo build --release --verbose
+    - mv target/release/ffsend ./ffsend
+  artifacts:
+    name: build-dynamic
+    paths:
+      - ffsend
+    expire_in: 1 month
 
 # Build a static version
 build-static:
@@ -81,11 +88,12 @@ build-static:
     - export OPENSSL_STATIC=1
     - export OPENSSL_LIB_DIR=/usr/local/lib
     - export OPENSSL_INCLUDE_DIR=/usr/local/include
-    - cargo build --target=x86_64-unknown-linux-musl --all --release --verbose
+    - cargo build --target=x86_64-unknown-linux-musl --release --verbose
 
     # Prepare the release artifact
     - mv target/x86_64-unknown-linux-musl/release/ffsend ./ffsend
   artifacts:
+    name: build-static
     paths:
       - ffsend
     expire_in: 1 month
@@ -95,7 +103,7 @@ cargo-test:
   stage: test
   dependencies: []
   script:
-    - cargo test --all --verbose
+    - cargo test --verbose
 
 # Run integration test with the public Send service
 public-send-test:
