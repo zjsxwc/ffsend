@@ -93,6 +93,10 @@ build-cross:
     - export OPENSSL_INCLUDE_DIR=/usr/local/include
     - cargo build --target=x86_64-unknown-linux-musl --all --release --verbose
     - mv target/release/ffsend ./ffsend
+  artifacts:
+    paths:
+      - ffsend
+    expire_in: 1 month
 
 # Run the unit tests through Cargo
 cargo-test:
