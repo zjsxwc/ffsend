@@ -100,7 +100,6 @@ cargo-test:
 # Run integration test with the public Send service
 public-send-test:
   stage: test
-  image: alpine
   dependencies:
     - build-static
   variables:
