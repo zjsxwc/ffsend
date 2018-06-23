@@ -56,9 +56,6 @@ rust-nightly:
 build:
   stage: build
   script:
-    - cargo build --verbose
-    - cargo build --no-default-features --verbose
-    - cargo build --features no-color --verbose
     - cargo build --release --verbose
     - mv target/release/ffsend ./ffsend
   artifacts:
