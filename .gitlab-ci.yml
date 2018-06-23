@@ -93,7 +93,7 @@ build:
     - export OPENSSL_INCLUDE_DIR=/usr/local/include
     - cargo build --target=x86_64-unknown-linux-musl --all --release --verbose
     - ls -lahR target
-    - mv target/**/ffsend ./ffsend
+    - mv target/x86_64-unknown-linux-musl/release/ffsend ./ffsend
   artifacts:
     paths:
       - ffsend
