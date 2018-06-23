@@ -1,9 +1,8 @@
 image: "rust:slim"
 
 stages:
-  # TODO: run the check stage first after testing
-  - build
   - check
+  - build
   - test
   - release
 
@@ -53,33 +52,22 @@ rust-nightly:
     RUST_VERSION: nightly
   cache: {}
 
-# # Create a release build artifact for future testing
-# build:
-#   stage: build
-#   script:
-#     - apt install -y build-essential wget
-#     - wget https://www.openssl.org/source/openssl-1.0.2o.tar.gz
-#     - tar xzvf openssl-1.0.2o.tar.gz
-#     - cd openssl-1.0.2o
-#     - ./config -fPIC --openssldir=/usr/local/ssl --prefix=/usr/local
-#     - make
-#     - make install
-#     - cd ..
-#     - export OPENSSL_STATIC=1
-#     - export OPENSSL_LIB_DIR=/usr/local/lib
-#     - export OPENSSL_INCLUDE_DIR=/usr/local/include
-#     - cargo build --all --release --verbose
-#     - mv target/release/ffsend ./ffsend
-#   artifacts:
-#     paths:
-#       - ffsend
-#     expire_in: 1 month
-
-# Attempt a musl build with cross
+# Build using Rust stable
 build:
   stage: build
   script:
+    - cargo build --all --verbose
+    - cargo build --no-default-features --all --verbose
+    - cargo build --features no-color --all --verbose
+
+# Build a static version
+build-static:
+  stage: build
+  script:
+    # Install the static target
     - rustup target add x86_64-unknown-linux-musl
+
+    # Build OpenSSL statically
     - apt install -y build-essential wget musl-tools
     - wget https://www.openssl.org/source/openssl-1.0.2o.tar.gz
     - tar xzvf openssl-1.0.2o.tar.gz
@@ -88,11 +76,14 @@ build:
     - make
     - make install
     - cd ..
+
+    # Statically build ffsend
     - export OPENSSL_STATIC=1
     - export OPENSSL_LIB_DIR=/usr/local/lib
     - export OPENSSL_INCLUDE_DIR=/usr/local/include
     - cargo build --target=x86_64-unknown-linux-musl --all --release --verbose
-    - ls -lahR target
+
+    # Prepare the release artifact
     - mv target/x86_64-unknown-linux-musl/release/ffsend ./ffsend
   artifacts:
     paths:
@@ -111,7 +102,7 @@ public-send-test:
   stage: test
   image: alpine
   dependencies:
-    - build
+    - build-static
   variables:
     GIT_STRATEGY: none
   cache: {}
