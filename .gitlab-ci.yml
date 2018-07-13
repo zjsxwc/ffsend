@@ -123,6 +123,22 @@ crate:
   only:
     - /^v(\d+\.)*\d+$/
   script:
-    - echo "Creating release crate on crates.io..."
+    - echo "Creating release crate to publish on crates.io..."
     - echo $CARGO_TOKEN | cargo login
+    - echo "Publishing crate to crates.io..."
     - cargo publish --verbose
+
+# Snap release
+snap:
+  image: snapcore/snapcraft
+  stage: release
+  # only:
+  #   - /^v(\d+\.)*\d+$/
+  before_script: []
+  script:
+    - echo "Building snap package..."
+    - cd pkg/snap
+    - snapcraft
+    # - echo "Publishing snap package..."
+    # - echo "$SNAP_USER\n&SNAP_PASS" | snapcraft login
+    # TODO: publish the package
