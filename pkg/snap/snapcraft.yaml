@@ -18,10 +18,13 @@ confinement: devmode
 apps:
   ffsend:
     command: ffsend
+    plugs:
+      - home
+      - removable-media
 
 parts:
   ffsend:
-    source: ../../
+    source: .
     plugin: rust
     build-attributes: [no-system-libraries]
     build-packages:
@@ -30,7 +33,7 @@ parts:
       - make
       - pkg-config
     stage-packages:
-      - ca-certificates
+      # - ca-certificates
       - libssl1.0.0
       - libudev1
       - libstdc++6
