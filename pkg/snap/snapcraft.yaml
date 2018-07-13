@@ -13,27 +13,19 @@ description: |
   An optional password may be specified, and a default file lifetime of 1
   (up to 20) download or 24 hours is enforced to ensure your stuff does not
   remain online forever. This provides a secure platform to share your files.
+
+grade: devel
 confinement: devmode
 
 apps:
   ffsend:
     command: ffsend
-    plugs:
-      - home
-      - removable-media
+    plugs: [home, removable-media]
 
 parts:
   ffsend:
     source: .
     plugin: rust
     build-attributes: [no-system-libraries]
-    build-packages:
-      - libudev-dev
-      - libssl-dev
-      - make
-      - pkg-config
-    stage-packages:
-      # - ca-certificates
-      - libssl1.0.0
-      - libudev1
-      - libstdc++6
+    build-packages: [g++, libudev-dev, libssl-dev, make, pkg-config]
+    stage-packages: [libc6, libssl1.0.0, libudev1, libstdc++6]
