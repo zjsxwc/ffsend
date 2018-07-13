@@ -64,7 +64,8 @@ pub fn print_error<E: Fail>(err: impl Borrow<E>) {
     if count == 0 {
         eprintln!("{} {}", highlight_error("error:"), "an undefined error occurred");
     }
-} 
+}
+
 /// Print the given error message in a proper format for the user,
 /// with it's causes.
 pub fn print_error_msg<S>(err: S)
