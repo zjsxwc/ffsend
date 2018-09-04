@@ -1,6 +1,6 @@
 [package]
 name = "ffsend"
-version = "0.0.7"
+version = "0.0.8"
 authors = ["Tim Visee <timvisee@gmail.com>"]
 license = "GPL-3.0"
 readme = "README.md"
@@ -61,16 +61,18 @@ history = []
 no-color = ["colored/no-color"]
 
 [dependencies]
+chbs = "0.0.1"
 chrono = "0.4"
 clap = "2.31"
 colored = "1.6"
-derive_builder = "0.5"
+derive_builder = "0.6"
 directories = "0.10"
 failure = "0.1"
 ffsend-api = "0.0"
 fs2 = "0.4"
 lazy_static = "1.0"
 open = "1"
+openssl-probe = "0.1"
 pbr = "1"
 prettytable-rs = "0.6"
 rpassword = "2.0"
